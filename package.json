@@ -1,0 +1,22 @@
+{
+  "name": "express-js-blog-posts",
+  "version": "1.0.0",
+  "description": "Blog Post site using Express js framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pranavghodake3/express-js-blog-posts.git"
+  },
+  "author": "Pranav Ghodake",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pranavghodake3/express-js-blog-posts/issues"
+  },
+  "homepage": "https://github.com/pranavghodake3/express-js-blog-posts#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
