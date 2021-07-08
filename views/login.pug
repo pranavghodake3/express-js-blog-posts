@@ -3,14 +3,10 @@ extends master.pug
 block content
   form
     .mb-3
-      label.form-label(for='exampleInputEmail1') Email address
-      input#exampleInputEmail1.form-control(type='email' aria-describedby='emailHelp')
-      #emailHelp.form-text We&apos;ll never share your email with anyone else.
+      label.form-label(for='email') Email address
+      input#email.form-control(type='email' aria-describedby='emailHelp')
     .mb-3
-      label.form-label(for='exampleInputPassword1') Password
-      input#exampleInputPassword1.form-control(type='password')
-    .mb-3.form-check
-      input#exampleCheck1.form-check-input(type='checkbox')
-      label.form-check-label(for='exampleCheck1') Check me out
+      label.form-label(for='password') Password
+      input#password.form-control(type='password')
     button.btn.btn-primary(type='submit') Submit
 
