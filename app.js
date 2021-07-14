@@ -25,8 +25,7 @@ app.use(function(req,res,next) {
     return next();
 });
 
-
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
     console.log('req.session.isLoggedIn: '+req.session.isLoggedIn);
