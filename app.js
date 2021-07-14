@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+require('dotenv').config();
 const port = 9001;
 var session = require('express-session');
+const mongoose = require('mongoose');
 
 // Middlewares
 app.set('trust proxy', 1) // trust first proxy
@@ -16,13 +18,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 app.use(express.json());       // to support JSON-encoded bodies
-app.use(express.urlencoded()); // to support URL-encoded bodies
+app.use(express.urlencoded({extended : true})); // to support URL-encoded bodies
 app.use(function(req,res,next) {
     res.locals = {
         isLoggedIn : req.session.isLoggedIn,
         loggedInUser : req.session.loggedInUser
     };
     return next();
+});
+
+// DB Connection
+mongoose.connect(process.env.DB_CONNECTION_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
 });
 
 app.set('view engine', 'pug');
