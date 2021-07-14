@@ -5,6 +5,7 @@ require('dotenv').config();
 const port = 9001;
 var session = require('express-session');
 const mongoose = require('mongoose');
+var BlogUser = require('./models/BlogUser');
 
 // Middlewares
 app.set('trust proxy', 1) // trust first proxy
@@ -69,6 +70,27 @@ app.post('/login', (req, res) => {
 
 app.get('/register', (req, res) => {
     res.render('register', { title: 'Hey', message: 'Hello there!' });
+});
+
+app.post('/register', (req, res) => {
+    const newUser = {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        password: req.body.password,
+    }
+    console.log('Registering user:',newUser);
+    var blogUser = new BlogUser(newUser);
+    blogUser.save(function(err,result){
+        if (err){
+            console.log(err);
+            res.end(err);
+        }
+        else{
+            console.log(result)
+            res.redirect('/login');
+        }
+    });
 });
 
 app.listen(port, () => {

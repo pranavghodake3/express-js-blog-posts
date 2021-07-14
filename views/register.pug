@@ -1,21 +1,21 @@
 extends master.pug
 
 block content
-  form
+  form(action='' method='POST')
     .mb-3
       label.form-label(for='first_name') First Name
-      input#first_name.form-control(type='text')
+      input#first_name.form-control(type='text', name='first_name')
     .mb-3
       label.form-label(for='last_name') Last Name
-      input#last_name.form-control(type='text')
+      input#last_name.form-control(type='text' name='last_name')
     .mb-3
       label.form-label(for='email') Email address
-      input#email.form-control(type='email')
+      input#email.form-control(type='email' name='email')
     .mb-3
       label.form-label(for='password') Password
-      input#password.form-control(type='password')
+      input#password.form-control(type='password' name='password')
     .mb-3
       label.form-label(for='confirm_password') Confirm Password
-      input#confirm_password.form-control(type='password')
+      input#confirm_password.form-control(type='password' name='confirm_password')
     button.btn.btn-primary(type='submit') Submit
 
