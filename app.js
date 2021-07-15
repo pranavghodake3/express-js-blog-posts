@@ -38,38 +38,54 @@ mongoose.connect(process.env.DB_CONNECTION_URL, {
 
 app.set('view engine', 'pug');
 
+app.use(function (req, res, next) {
+    res.locals = {
+        isLoggedIn: req.session.isLoggedIn
+    };
+    next();
+});
+
 app.get('/', (req, res) => {
-    console.log('req.session.isLoggedIn: '+req.session.isLoggedIn);
-    res.render('home', { title: 'Hey', message: 'Hello there!' });
+    res.render('home');
 });
 
 app.get('/about', (req, res) => {
-    res.render('about', { title: 'Hey', message: 'Hello there!' });
+    res.render('about');
 });
 
 app.get('/login', (req, res) => {
-    res.render('login', { title: 'Hey', message: 'Hello there!' });
+    if(req.session.isLoggedIn){
+        res.redirect('/');
+    }else{
+        res.render('login');
+    }
 });
 
 app.post('/login', (req, res) => {
-    console.log('req data: ',req.body.email);
-
-    // var host = location.host;
-    // let domainParts = host.split('.');
-    // domainParts.shift();
-    // let domain = '.'+domainParts.join('.');
-    // console.log('domain: '+domain);
-
-    req.session.isLoggedIn = true;
-    req.session.loggedInUser = {
-        email: req.body.email
-    };
-
-    res.redirect('/');
+    BlogUser.findOne({ 'email': req.body.email }).exec(function (err, blogUser) {
+        if (err || !blogUser){
+            return res.redirect('/login');
+        }
+        blogUser.comparePassword(req.body.password, function(matchError, isMatch) {
+            if (matchError || !isMatch) {
+                res.redirect('/login');
+            } else {
+                req.session.isLoggedIn = true;
+                req.session.loggedInUser = {
+                    email: req.body.email
+                };
+                res.redirect('/');
+            }
+        });
+    });
 });
 
 app.get('/register', (req, res) => {
-    res.render('register', { title: 'Hey', message: 'Hello there!' });
+    if(req.session.isLoggedIn){
+        res.redirect('/');
+    }else{
+        res.render('register');
+    }
 });
 
 app.post('/register', (req, res) => {
@@ -79,7 +95,6 @@ app.post('/register', (req, res) => {
         email: req.body.email,
         password: req.body.password,
     }
-    console.log('Registering user:',newUser);
     var blogUser = new BlogUser(newUser);
     blogUser.save(function(err,result){
         if (err){
@@ -91,6 +106,11 @@ app.post('/register', (req, res) => {
             res.redirect('/login');
         }
     });
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/login');
 });
 
 app.listen(port, () => {

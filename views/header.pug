@@ -8,5 +8,8 @@ header.d-flex.flex-wrap.align-items-center.justify-content-center.justify-conten
         li
             a.nav-link.px-2.link-secondary(href='/about') About
     .col-md-3.text-end
-        a.btn.btn-outline-primary.me-2(href='/login') Login
-        a.btn.btn-primary(href='/register') Sign-up
+        if !isLoggedIn
+            a.btn.btn-outline-primary.me-2(href='/login') Login
+            a.btn.btn-primary(href='/register') Sign-up
+        if isLoggedIn
+            a.btn.btn-primary(href='/logout') Logout
