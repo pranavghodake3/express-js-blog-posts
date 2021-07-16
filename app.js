@@ -4,7 +4,6 @@ const app = express();
 require('dotenv').config();
 var session = require('express-session');
 const mongoose = require('mongoose');
-var BlogUser = require('./models/BlogUser');
 
 // DB Connection
 mongoose.connect(process.env.DB_CONNECTION_URL, {
@@ -20,7 +19,7 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false }
+  cookie: { secure: false, maxAge: 3600000 }
 }));
 
 //app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));

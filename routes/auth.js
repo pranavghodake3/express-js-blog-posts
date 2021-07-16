@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+var BlogUser = require('../models/BlogUser');
 
 router.get('/login', (req, res) => {
     if(req.session.isLoggedIn){
@@ -12,11 +13,11 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
     BlogUser.findOne({ 'email': req.body.email }).exec(function (err, blogUser) {
         if (err || !blogUser){
-            return res.redirect('/login');
+            return res.redirect('/auth/login');
         }
         blogUser.comparePassword(req.body.password, function(matchError, isMatch) {
             if (matchError || !isMatch) {
-                res.redirect('/login');
+                res.redirect('/auth/login');
             } else {
                 req.session.isLoggedIn = true;
                 req.session.loggedInUser = blogUser;
