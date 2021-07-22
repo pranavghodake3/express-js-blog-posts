@@ -21,6 +21,8 @@ router.post('/login', (req, res) => {
             } else {
                 req.session.isLoggedIn = true;
                 req.session.loggedInUser = blogUser;
+                req.session.loggedInUserEmail = req.body.email;
+                console.log('After Login req.session.loggedInUserEmail: '+req.session.loggedInUserEmail);
                 res.redirect('/');
             }
         });
@@ -57,7 +59,7 @@ router.post('/register', (req, res) => {
 
 router.get('/logout', (req, res) => {
     req.session.destroy();
-    res.redirect('/login');
+    res.redirect('/auth/login');
 });
 
 module.exports = router;

@@ -21,23 +21,13 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false, maxAge: 3600000 }
 }));
-
-//app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
-//console.log('__dirname: '+__dirname);
-//app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
-app.use(function(req,res,next) {
-    res.locals = {
-        isLoggedIn : req.session.isLoggedIn,
-        loggedInUser : req.session.loggedInUser
-    };
-    return next();
-});
 app.use(function (req, res, next) {
     res.locals = {
-        isLoggedIn: req.session.isLoggedIn
+        isLoggedIn: req.session.isLoggedIn,
+        loggedInUserEmail: req.session.loggedInUserEmail
     };
     next();
 });
@@ -57,7 +47,8 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/profile', (req, res) => {
-    res.render('profile');
+    console.log('res.locals: ',req.locals);
+    res.render('profile', res.locals);
 });
 
 app.listen(process.env.DEFAULT_PORT, () => {

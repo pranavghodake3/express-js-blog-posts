@@ -1,0 +1,25 @@
+.row.home-posts{
+    width: 50%;
+    margin: 0 auto;
+}
+.at-time{
+    text-align: right;
+    font-size: 12px;
+    color: grey;
+}
+.post-by-user{
+    text-align: right;
+    font-size: 12px;
+}
+.post-basic-info {
+    margin-top: 5px;
+}
+.row.home-posts {
+    border: 1px solid #d2d2d2;
+    border-bottom: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+

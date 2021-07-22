@@ -7,12 +7,11 @@ header.d-flex.flex-wrap.align-items-center.justify-content-center.justify-conten
             a.nav-link.px-2.link-dark(href='/') Home
         li
             a.nav-link.px-2.link-secondary(href='/about') About
-        if isLoggedIn
-            li
-                a.nav-link.px-2.link-secondary(href='/profile') Profile
     .col-md-3.text-end
         if !isLoggedIn
             a.btn.btn-outline-primary.me-2(href='/auth/login') Login
             a.btn.btn-primary(href='/auth/register') Sign-up
         if isLoggedIn
+            a.btn.btn-outline-primary.me-2(href='/create-post') Create Post
+            a.btn.btn-outline-primary.me-2(href='/profile') Profile
             a.btn.btn-primary(href='/auth/logout') Logout

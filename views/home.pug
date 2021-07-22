@@ -1,13 +1,30 @@
 extends master.pug
 
+block pageLevelCss
+    link(rel='stylesheet', href='/css/home.css')
+
 block content
-  .row
-    .col-sm-4
-      h3 Column 1
-      p Lorem ipsum dolor..
-    .col-sm-4
-      h3 Column 2
-      p Lorem ipsum dolor..
-    .col-sm-4
-      h3 Column 3
-      p Lorem ipsum dolor..
+    .row.home-posts
+        .col-md-12.single-post
+            h3.title Post title
+            div.description Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor..
+            div.post-basic-info
+                div.at-time 2021-07-22 08.00 PM
+                div.post-by-user
+                    strong Pranav Ghodake
+    .row.home-posts
+        .col-md-12.single-post
+            h3.title Post title
+            div.description Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor..
+            div.post-basic-info
+                div.at-time 2021-07-22 08.00 PM
+                div.post-by-user
+                    strong Pranav Ghodake
+    .row.home-posts
+        .col-md-12.single-post
+            h3.title Post title
+            div.description Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor..
+            div.post-basic-info
+                div.at-time 2021-07-22 08.00 PM
+                div.post-by-user
+                    strong Pranav Ghodake
