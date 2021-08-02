@@ -1,0 +1,11 @@
+extends master.pug
+
+block content
+    form(action='', method='POST')
+        .mb-3
+            label.form-label(for='title') Title
+            input.form-control(name='title' type='text')
+        .mb-3
+            label.form-label(for='content') Content
+            textarea.form-control(name="content", cols="30", rows="10")
+        button.btn.btn-primary(type='submit') Submit

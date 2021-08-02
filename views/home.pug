@@ -4,27 +4,12 @@ block pageLevelCss
     link(rel='stylesheet', href='/css/home.css')
 
 block content
-    .row.home-posts
-        .col-md-12.single-post
-            h3.title Post title
-            div.description Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor..
-            div.post-basic-info
-                div.at-time 2021-07-22 08.00 PM
-                div.post-by-user
-                    strong Pranav Ghodake
-    .row.home-posts
-        .col-md-12.single-post
-            h3.title Post title
-            div.description Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor..
-            div.post-basic-info
-                div.at-time 2021-07-22 08.00 PM
-                div.post-by-user
-                    strong Pranav Ghodake
-    .row.home-posts
-        .col-md-12.single-post
-            h3.title Post title
-            div.description Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor..
-            div.post-basic-info
-                div.at-time 2021-07-22 08.00 PM
-                div.post-by-user
-                    strong Pranav Ghodake
+    each post in posts
+        .row.home-posts
+            .col-md-12.single-post
+                h3.title #{post.title}
+                div.description #{post.content}
+                div.post-basic-info
+                    div.at-time #{post.date} ago
+                    div.post-by-user
+                        strong #{post.user_id.first_name} #{post.user_id.last_name}

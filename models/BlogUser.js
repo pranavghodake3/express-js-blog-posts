@@ -34,15 +34,16 @@ BlogUserSchema.pre("save", function (next) {
     }
 });
 
-BlogUserSchema.methods.comparePassword = function(password, callback) {
-    bcrypt.compare(password, this.password, function(error, isMatch) {
-        if (error) {
-            return callback(error)
-        } else {
-            callback(null, isMatch)
-        }
-    })
-}
+// BlogUserSchema.methods.comparePassword = function(password, callback) {
+//     console.log('CALLING');
+//     bcrypt.compare(password, this.password, function(error, isMatch) {
+//         if (error) {
+//             return callback(error)
+//         } else {
+//             callback(null, isMatch)
+//         }
+//     })
+// }
 
 // Compile model from schema
 module.exports = mongoose.model('BlogUser', BlogUserSchema );

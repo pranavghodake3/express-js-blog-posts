@@ -4,6 +4,8 @@ const app = express();
 require('dotenv').config();
 var session = require('express-session');
 const mongoose = require('mongoose');
+const Post = require('./models/Post');
+const helper = require('./helper');
 
 // DB Connection
 mongoose.connect(process.env.DB_CONNECTION_URL, {
@@ -27,7 +29,7 @@ app.use(express.urlencoded({extended : true}));
 app.use(function (req, res, next) {
     res.locals = {
         isLoggedIn: req.session.isLoggedIn,
-        loggedInUserEmail: req.session.loggedInUserEmail
+        loggedInUser: req.session.loggedInUser
     };
     next();
 });
@@ -37,7 +39,21 @@ app.set('view engine', 'pug');
 
 
 app.get('/', (req, res) => {
-    res.render('home');
+    Post.find().lean().populate('user_id')
+    .then((posts) => {
+        var newposts = posts.map((post) => {
+            return {
+                ...post,
+                "date": helper.timeSince(post.date)
+            }
+        });
+        console.log('Posts: ',newposts);
+        res.render('home', {"posts": newposts});
+    })
+    .catch((err) => {
+        console.log('err: ', err);
+        res.render('home', {"posts": []});
+    });
 });
 
 app.use('/auth', require('./routes/auth'));
@@ -46,8 +62,27 @@ app.get('/about', (req, res) => {
     res.render('about');
 });
 
+app.get('/create-post', (req, res) => {
+    res.render('create-post');
+});
+
+app.post('/create-post', (req, res) => {
+    const postData = new Post({
+        title: req.body.title,
+        content: req.body.content,
+        user_id: req.session.loggedInUser._id
+    });
+    postData.save()
+    .then(data => {
+        res.redirect('/');
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while creating the Note."
+        });
+    });
+});
+
 app.get('/profile', (req, res) => {
-    console.log('res.locals: ',req.locals);
     res.render('profile', res.locals);
 });
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 var BlogUser = require('../models/BlogUser');
+const bcrypt = require("bcryptjs");
 
 router.get('/login', (req, res) => {
     if(req.session.isLoggedIn){
@@ -11,22 +12,39 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-    BlogUser.findOne({ 'email': req.body.email }).exec(function (err, blogUser) {
-        if (err || !blogUser){
-            return res.redirect('/auth/login');
-        }
-        blogUser.comparePassword(req.body.password, function(matchError, isMatch) {
-            if (matchError || !isMatch) {
+    BlogUser.findOne({ 'email': req.body.email }).lean()
+    .then((blogUser) => {
+        bcrypt.compare(req.body.password, blogUser.password, function(error, isMatch) {
+            if (error) {
                 res.redirect('/auth/login');
             } else {
                 req.session.isLoggedIn = true;
                 req.session.loggedInUser = blogUser;
-                req.session.loggedInUserEmail = req.body.email;
-                console.log('After Login req.session.loggedInUserEmail: '+req.session.loggedInUserEmail);
                 res.redirect('/');
             }
         });
+    })
+    .catch((err) => {
+        res.redirect('/auth/login');
     });
+
+    
+    // (function (err, blogUser) {
+    //     if (err || !blogUser){
+    //         return res.redirect('/auth/login');
+    //     }
+    //     blogUser.comparePassword(req.body.password, function(matchError, isMatch) {
+    //         if (matchError || !isMatch) {
+    //             res.redirect('/auth/login');
+    //         } else {
+    //             req.session.isLoggedIn = true;
+    //             req.session.loggedInUser = blogUser;
+    //             req.session.loggedInUserEmail = req.body.email;
+    //             console.log('After Login req.session.loggedInUserEmail: '+req.session.loggedInUserEmail);
+    //             res.redirect('/');
+    //         }
+    //     });
+    // });
 });
 
 router.get('/register', (req, res) => {
