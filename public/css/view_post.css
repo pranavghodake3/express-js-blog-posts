@@ -1,0 +1,7 @@
+.time-user{
+    text-align: right;
+}
+.time-user .time{
+    font-size: 12px;
+    color: gray;
+}

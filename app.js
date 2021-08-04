@@ -39,7 +39,7 @@ app.set('view engine', 'pug');
 
 
 app.get('/', (req, res) => {
-    Post.find().lean().populate('user_id')
+    Post.find().sort('-date').lean().populate('user')
     .then((posts) => {
         var newposts = posts.map((post) => {
             return {
@@ -47,7 +47,6 @@ app.get('/', (req, res) => {
                 "date": helper.timeSince(post.date)
             }
         });
-        console.log('Posts: ',newposts);
         res.render('home', {"posts": newposts});
     })
     .catch((err) => {
@@ -55,6 +54,18 @@ app.get('/', (req, res) => {
         res.render('home', {"posts": []});
     });
 });
+
+app.get('/posts/:id', (req, res) => {
+    Post.findOne({"_id": req.params.id}).lean().populate('user')
+    .then((post) => {
+        console.log('Single post: ',post);
+        post.date = helper.timeSince(post.date);
+        res.render('view_post', {"post": post});
+    })
+    .catch((err) => {
+        res.render('view_post');
+    })
+})
 
 app.use('/auth', require('./routes/auth'));
 
@@ -70,7 +81,7 @@ app.post('/create-post', (req, res) => {
     const postData = new Post({
         title: req.body.title,
         content: req.body.content,
-        user_id: req.session.loggedInUser._id
+        user: req.session.loggedInUser._id
     });
     postData.save()
     .then(data => {

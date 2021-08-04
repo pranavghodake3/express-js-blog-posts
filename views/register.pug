@@ -1,21 +1,44 @@
 extends master.pug
 
 block content
-  form(action='' method='POST')
-    .mb-3
-      label.form-label(for='first_name') First Name
-      input#first_name.form-control(type='text', name='first_name')
-    .mb-3
-      label.form-label(for='last_name') Last Name
-      input#last_name.form-control(type='text' name='last_name')
-    .mb-3
-      label.form-label(for='email') Email address
-      input#email.form-control(type='email' name='email')
-    .mb-3
-      label.form-label(for='password') Password
-      input#password.form-control(type='password' name='password')
-    .mb-3
-      label.form-label(for='confirm_password') Confirm Password
-      input#confirm_password.form-control(type='password' name='confirm_password')
-    button.btn.btn-primary(type='submit') Submit
+    div.col-md-12.form-status-msg.alert
+    form(action='' method='POST')#registerForm
+        .mb-3
+            label.form-label(for='first_name') First Name
+            input#first_name.form-control(type='text', name='first_name')
+        .mb-3
+            label.form-label(for='last_name') Last Name
+            input#last_name.form-control(type='text' name='last_name')
+        .mb-3
+            label.form-label(for='email') Email address
+            input#email.form-control(type='email' name='email')
+        .mb-3
+            label.form-label(for='password') Password
+            input#password.form-control(type='password' name='password')
+        .mb-3
+            label.form-label(for='confirm_password') Confirm Password
+            input#confirm_password.form-control(type='password' name='confirm_password')
+        button.btn.btn-primary(type='submit') Submit
 
+block pageLevelJs
+    script.
+        $("#registerForm").submit(function(e){
+            e.preventDefault();
+            var form = $(this);
+            var url = form.attr('action');
+            $('.form-status-msg').removeClass('alert-danger');
+            $('.form-status-msg').removeClass('alert-success');
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: form.serialize(),
+                success: function(result){
+                    $('.form-status-msg').text(result.message);
+                    if(result.success){
+                        $('.form-status-msg').addClass('alert-success');
+                    }else{
+                        $('.form-status-msg').addClass('alert-danger');
+                    }
+                }
+            });
+        });

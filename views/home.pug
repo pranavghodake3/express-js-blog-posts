@@ -7,9 +7,10 @@ block content
     each post in posts
         .row.home-posts
             .col-md-12.single-post
-                h3.title #{post.title}
+                a(href="/posts/"+post._id)
+                    h3.title #{post.title}
                 div.description #{post.content}
                 div.post-basic-info
                     div.at-time #{post.date} ago
                     div.post-by-user
-                        strong #{post.user_id.first_name} #{post.user_id.last_name}
+                        strong #{post.user.first_name} #{post.user.last_name}

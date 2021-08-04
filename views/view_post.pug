@@ -1,0 +1,17 @@
+extends master.pug
+
+block pageLevelCss
+    link(rel='stylesheet', href='/css/view_post.css')
+
+block content
+    .row
+        .col-md-12
+            a(href="/").btn.btn-info Back
+    .row.home-posts
+        .col-md-12.single-post
+            h3.title #{post.title}
+        col-md-12.single-post #{post.content}
+    .row.time-user
+        col-md-12.time #{post.date} ago
+        col-md-12 
+            strong #{post.user.first_name} #{post.user.last_name}
